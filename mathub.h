@@ -2,6 +2,6 @@
 #define MATHUB_H
 
 #include "./blob/core.h"
-#include "./operators/ops.h"
+#include "./expression/operations.h"
 
 #endif

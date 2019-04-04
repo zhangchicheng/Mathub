@@ -1,7 +1,7 @@
 #ifndef CORE_H
 #define CORE_H
 
-#include "../expr.h"
+#include "../expression/expr.h"
 #include "./shape.h"
 
 namespace Mathub
@@ -25,11 +25,11 @@ namespace Mathub
     inline mathub& operator=(const Expr<SubType>& expr_)
     {
       const SubType & expr = expr_.self();
-      data = expr.Eval();
+      data = expr.eval();
       return *this;
     }
 
-    inline T Eval() const
+    inline T eval() const
     {
       return data;
     }
@@ -49,11 +49,11 @@ namespace Mathub
     static constexpr unsigned dim = 1;
     static constexpr Shape<dim> shape = {N};
 
-    T& operator[](unsigned i) { assert(i<N); return data[i]; }
-    const T& operator[](unsigned i) const { assert(i<N); return data[i]; }
+    T& operator[](unsigned i) { return data[i]; }
+    const T& operator[](unsigned i) const { return data[i]; }
 
-    T& operator()(unsigned i) { assert(i<N); return data[i]; }
-    const T& operator()(unsigned i) const { assert(i<N); return data[i]; }
+    T& operator()(unsigned i) { return data[i]; }
+    const T& operator()(unsigned i) const { return data[i]; }
 
     template<typename SubType>
     inline mathub& operator=(const Expr<SubType>& expr_)
@@ -61,12 +61,12 @@ namespace Mathub
       const SubType &expr = expr_.self();
       for (unsigned i = 0; i < N; ++i)
       {
-        data[i] = expr.Eval(i);
+        data[i] = expr.eval(i);
       }
       return *this;
     }
 
-    inline T Eval(unsigned i) const
+    inline T eval(unsigned i) const
     {
       return data[i];
     }
@@ -87,11 +87,11 @@ namespace Mathub
     static constexpr unsigned dim = 2;
     static constexpr Shape<dim> shape = {N1, N2};
 
-    SubType& operator[](unsigned i) { assert(i<N1); return data[i]; }
-    const SubType& operator[](unsigned i) const { assert(i<N1); return data[i]; }
+    SubType& operator[](unsigned i) { return data[i]; }
+    const SubType& operator[](unsigned i) const { return data[i]; }
 
-    T& operator()(unsigned i, unsigned j) { assert(i<N1); return data[i][j]; }
-    const T& operator()(unsigned i, unsigned j) const { assert(i<N1); return data[i][j]; }
+    T& operator()(unsigned i, unsigned j) { return data[i][j]; }
+    const T& operator()(unsigned i, unsigned j) const { return data[i][j]; }
 
     template<typename SubType>
     inline mathub& operator=(const Expr<SubType>& expr_)
@@ -101,13 +101,13 @@ namespace Mathub
       {
         for (unsigned j = 0; j < N2; ++j)
         {
-          data[i][j] = expr.Eval(i,j);
+          data[i][j] = expr.eval(i,j);
         }
       }
       return *this;
     }
 
-    inline T Eval(unsigned i, unsigned j) const {
+    inline T eval(unsigned i, unsigned j) const {
       return data[i][j];
     }
     inline const mathub& self() const
@@ -128,11 +128,11 @@ namespace Mathub
     static constexpr unsigned dim = sizeof...(Ns) + 1;
     static constexpr Shape<dim> shape = {N, Ns...};
 
-    SubType& operator[](unsigned i) { assert(i<N); return data[i]; }
-    const SubType& operator[](unsigned i) const { assert(i<N); return data[i]; }
+    SubType& operator[](unsigned i) { return data[i]; }
+    const SubType& operator[](unsigned i) const { return data[i]; }
 
-    T& operator()(unsigned i, decltype(Ns)... is) { assert(i<N); return data[i](is...); }
-    const T& operator()(unsigned i, decltype(Ns)... is) const { assert(i<N); return data[i](is...); }
+    T& operator()(unsigned i, decltype(Ns)... is) { return data[i](is...); }
+    const T& operator()(unsigned i, decltype(Ns)... is) const { return data[i](is...); }
   };
 
   template <typename T>
