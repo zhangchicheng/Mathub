@@ -73,20 +73,18 @@ namespace Mathub
         return tmp;
       }
       else
-      return Op::map(lhs.eval(i,j), rhs.eval(i,j));
+        return Op::map(lhs.eval(i,j), rhs.eval(i,j));
     }
   };
 
   template <typename Op, typename T, typename Arg>
-  inline UnaryOp<Op, T, Arg>
-  F(const Arg& arg)
+  inline UnaryOp<Op, T, Arg> F(const Arg& arg)
   {
     return UnaryOp<Op, T, Arg>(arg.self());
   }
 
   template <typename Op, typename T, typename Lhs, typename Rhs>
-  inline BinaryOp<Op, T, Lhs, Rhs>
-  F(const Lhs& lhs, const Rhs& rhs)
+  inline BinaryOp<Op, T, Lhs, Rhs> F(const Lhs& lhs, const Rhs& rhs)
   {
     return BinaryOp<Op, T, Lhs, Rhs>(lhs.self(), rhs.self());
   }
