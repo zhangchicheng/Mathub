@@ -32,8 +32,7 @@ struct Array<T, N>
     template<typename SubType>
     constexpr Array& operator=(const Expr<SubType>& expr)
     {
-        const SubType& e = expr.self();
-        op<N>(data, e);
+        op<N>(data, expr.self());
         return *this;
     }
 
@@ -68,8 +67,7 @@ struct Array<T, N, Ns...>
     template <typename SubType>
     inline Array& operator=(const Expr<SubType>& expr)
     {
-        const SubType& e = expr.self();
-        op<N>(data, e);
+        op<N>(data, expr.self());
         return *this;
     }
 
