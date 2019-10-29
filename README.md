@@ -1,2 +1,103 @@
 # Mathub
-Mathub is a high-level C++ library of template headers for linear algebra, matrix and vector operations, numerical solvers and related algorithms
+Mathub is a C++ template library for linear algebra.
+
+## Overview
+* It supports arbitrary array sizes.
+* It supports all standard numeric types and is easily extensible to custom numeric types.
+* It does not have any dependencies other than iostream.
+
+## Usage
+Mathub is a pure template library defined in the headers. There is no binary library to link to, and no configured header file. In order to use Mathub, you just need to make the compiler be able to find the header files. Mathub requires a modern C++ compiler supporting C++17.
+Here is a simple program to get you started.
+
+    #include "mathub.h"
+    
+    using namespace Mathub;
+    
+    int main()
+    {
+      Vector<int,3> vec = {2,4,6}; // or Array<int,3>
+      std::cout << vec << std::endl;
+      
+      Matrix<int,2,2> mat = {1,3,5,7}; // or Array<int,2,2>
+      Matrix<int,2,1> mat2 = {2,3};
+      Matrix<int,2,2> mat3;
+      mat3 = -mat + mat2 * mat2;
+      std::cout << mat3 << std::endl;
+      
+      Tensor<int,2,3,2> arr = {0,1,2,3,4,5,6,7,8,9,0,1}; // or Array<int,2,3,2>
+      std::cout << arr << std::endl;
+    }
+When you run the program, it produces the following output which is similar to NumPy:
+    
+    [2, 4, 6]
+
+    [[3, 1],
+     [4, 2]]
+
+    [[[0, 1],
+      [2, 3],
+      [4, 5]],
+     [[6, 7],
+      [8, 9],
+      [0, 1]]]
+
+## Details
+* Array
+
+The `Array` is implemented by using variadic template.
+
+    template <typename T, unsigned... Ns> struct Array {};
+    
+    template <typename T, unsigned N>
+    struct Array<T, N>
+    {
+        ...
+      
+        using SubType = T;
+        using Type = SubType[N];
+        Type data;
+      
+        ...
+    };
+
+    template <typename T, unsigned N, unsigned... Ns>
+    struct Array<T, N, Ns...>
+    {
+        ...
+        
+        using SubType = Array<T, Ns...>;
+        using Type = SubType[N];
+        Type data;
+        
+        ...
+    };
+    
+Besides, variadic template is widely used in this project such as parenthesis operator overloading and output operator overloading
+
+    Tensor<int,2,3,2> arr = {0,1,2,3,4,5,6,7,8,9,0,1};
+    std::cout<< arr[0] << std::endl; // access sub array
+    std::cout<< arr(0,2,1) <<std::endl // access single element
+    
+    [[0, 1],
+     [2, 3],
+     [4, 5]]
+     
+    5
+Inplementation:
+
+    template <typename T, unsigned N, unsigned... Ns>
+    struct Array<T, N, Ns...>
+    {
+        ...
+        constexpr T& operator()(unsigned i, decltype(Ns)... is) { return data[i](is...); }
+        ...
+    }
+    
+* Broadcasting:
+
+      Matrix<int,2,2> mat = {1,3,5,7}; // or Array<int,2,2>
+      Matrix<int,2,1> mat2 = {2,3};
+      Matrix<int,2,2> mat3;
+
+* Expression Template and Lazy Evaluation
