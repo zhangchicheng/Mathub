@@ -95,9 +95,23 @@ Inplementation:
     }
     
 * Broadcasting:
+> The term broadcasting describes how numpy treats arrays with different shapes during arithmetic operations. Subject to certain constraints, the smaller array is “broadcast” across the larger array so that they have compatible shapes.
+> When operating on two arrays, NumPy compares their shapes element-wise. It starts with the trailing dimensions, and works its way forward. Two dimensions are compatible when
+>   1. they are equal, or
+>   2. one of them is 1
+
+>   In the following example, both the A and B arrays have axes with length one that are expanded to a larger size during the broadcast operation:
+
+    A      (4d array):  8 x 1 x 6 x 1
+    B      (3d array):      7 x 1 x 5
+    Result (4d array):  8 x 7 x 6 x 5
+
+Here is an example:
 
       Matrix<int,2,2> mat = {1,3,5,7}; // or Array<int,2,2>
       Matrix<int,2,1> mat2 = {2,3};
       Matrix<int,2,2> mat3;
+      mat3 = -mat + mat2 * mat2;
+      std::cout << mat3 << std::endl;
 
 * Expression Template and Lazy Evaluation
