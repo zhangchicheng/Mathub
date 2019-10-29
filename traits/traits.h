@@ -1,8 +1,17 @@
-#ifndef TRAITS_H
+﻿#ifndef TRAITS_H
 #define TRAITS_H
 
 namespace Mathub
 {
+template <unsigned... I>
+struct IndexSeq {};
+
+template <unsigned N, unsigned ...I>
+struct MakeIndexSeq : MakeIndexSeq<N-1, N-1, I...> {};
+
+template <unsigned... I>
+struct MakeIndexSeq<0, I...> : IndexSeq<I...> {};
+
 template <bool B, unsigned M, unsigned N>
 struct CondValue
 {
@@ -15,14 +24,17 @@ struct CondValue<false, M, N>
     static constexpr unsigned value = N;
 };
 
-template <unsigned... I>
-struct IndexSeq {};
+template <typename, typename >
+struct IsSame
+{
+    static constexpr bool value = false;
+};
 
-template <unsigned N, unsigned ...I>
-struct MakeIndexSeq : MakeIndexSeq<N-1, N-1, I...> {};
-
-template <unsigned... I>
-struct MakeIndexSeq<0, I...> : IndexSeq<I...> {};
+template <typename T>
+struct IsSame<T, T>
+{
+    static constexpr bool value = true;
+};
 
 // minic std::conditional
 template <bool B, typename T, typename F>
