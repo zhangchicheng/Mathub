@@ -108,7 +108,8 @@ When you run the program, it produces the following output which is similar to N
 
     The implementation of broadcasting is a little tricky which use a technique called [static table generation](https://en.wikipedia.org/wiki/Template_metaprogramming#Static_Table_Generation).
     
-        /* N : dimension of output
+        /* For the sake of simplicity, the code was simplified and not applicable directly.
+           N : dimension of output
            N1: dimension of first tensor
            N2: dimension of second tensor
            S1: shape of first tensor
@@ -116,9 +117,9 @@ When you run the program, it produces the following output which is similar to N
         */
         template <unsigned N, unsigned N1, unsigned N2, typename S1, typename S2, unsigned ...D>
         struct Broadcasting : Broadcasting<N - 1, N1 - 1, N2 - 1, Lhs, Rhs,
-                                            S1[N1 - 1] == S2[N2 - 1] ? 
+                                            (S1[N1 - 1] == S2[N2 - 1]) ? 
                                             S1[N1-1] : 
-                                            S1[N1 - 1] == 1 or S2[N2 - 1] == 1) ? 
+                                            (S1[N1 - 1] == 1 or S2[N2 - 1] == 1) ? 
                                             S1[N1 - 1] * S2[N2 - 1] : error,
                                             D...> {};
                                             
