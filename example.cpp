@@ -27,8 +27,8 @@ int main()
     Matrix<int, 2,3> v0 = {1,2,3,2,1,2};
     Matrix<int, 2,3> v1 = {0,1,4,2,2,4};
     Matrix<int, 2,3> v2 = {0,0,0,0,0,0};
-    v2 = v0+v4+v1;
-    std::cout<<v2[1]<<std::endl;
+    v2 = v0+v0*v1;
+    std::cout<<v2[0]<<std::endl;
 
     Tensor<int, 2,2,3> t0 = {1,2,3,2,1,2,3,4,5,7,8,9};
     Tensor<int, 2,1,3> t1 = {0,1,4,1,2,3};
@@ -36,9 +36,4 @@ int main()
     Tensor<int, 2,2,3> t3;
     t3 = t0+t1;
     std::cout<<t3<<std::endl;
-    //t3 = t0 + v0;
-    //std::cout<<t0<<std::endl;
-    //constexpr Shape<3> s = {1,2,3};
-    //constexpr auto arr = genArr<int,3,s>::arr;
-    //std::cout<<arr[0]<<std::endl;
 }
