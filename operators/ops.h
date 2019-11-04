@@ -14,10 +14,27 @@ inline UnaryOp<Op, Arg> F(const Arg& arg);
 template <typename Op, typename T, typename Lhs, typename Rhs>
 inline BinaryOp<Op, Lhs, Rhs> F(const Lhs& lhs, const Rhs& rhs);
 
-struct plus {};
-struct minus {};
-struct mul {};
-struct div {};
+struct plus
+{
+    template <typename Arg> static auto map(Arg a) { return a; }
+    template <typename Lhs, typename Rhs> static auto map(Lhs a, Rhs b) { return a + b; }
+};
+
+struct minus
+{
+    template <typename Arg> static auto map(Arg a) { return -a; }
+    template <typename Lhs, typename Rhs> static auto map(Lhs a, Rhs b) { return a - b; }
+};
+
+struct mul
+{
+    template <typename Lhs, typename Rhs> static auto map(Lhs a, Rhs b) { return a * b; }
+};
+
+struct div
+{
+    template <typename Lhs, typename Rhs> static auto map(Lhs a, Rhs b) { return a / b; }
+};
 
 template <typename Arg>
 inline UnaryOp<plus, Arg> operator+(const Arg& arg)
