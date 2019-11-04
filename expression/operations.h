@@ -44,26 +44,16 @@ struct BinaryOp: public Expr<BinaryOp<Op, Lhs, Rhs>>
         {
             if (Lhs::shape[0] == Rhs::shape[0])
             {
-                if constexpr (IsSame<Op, plus>::value)
-                    return lhs.eval(i) + rhs.eval(i);
-                else if constexpr (IsSame<Op, minus>::value)
-                    return lhs.eval(i) - rhs.eval(i);
-                else if constexpr (IsSame<Op, mul>::value)
-                    return lhs.eval(i) * rhs.eval(i);
-                else if constexpr (IsSame<Op, div>::value)
-                    return lhs.eval(i) / rhs.eval(i);
+                return Op::map(lhs.eval(i), rhs.eval(i));
             }
             else
             {
-                if constexpr (IsSame<Op, plus>::value)
-                    return (Lhs::shape[0] == 1) ? lhs.eval(0) + rhs.eval(i) : lhs.eval(i) + rhs.eval(0);
-                else if constexpr (IsSame<Op, minus>::value)
-                    return (Lhs::shape[0] == 1) ? lhs.eval(0) - rhs.eval(i) : lhs.eval(i) - rhs.eval(0);
-                else if constexpr (IsSame<Op, mul>::value)
-                    return (Lhs::shape[0] == 1) ? lhs.eval(0) * rhs.eval(i) : lhs.eval(i) * rhs.eval(0);
-                else if constexpr (IsSame<Op, div>::value)
-                    return (Lhs::shape[0] == 1) ? lhs.eval(0) / rhs.eval(i) : lhs.eval(i) / rhs.eval(0);
+                return (Lhs::shape[0]==1) ? Op::map(lhs.eval(0), rhs.eval(i)) : Op::map(lhs.eval(i), rhs.eval(0));
             }
+        }
+        else
+        {
+            // to do: different dim
         }
     }
 };
