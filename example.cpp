@@ -25,4 +25,8 @@ int main()
     Tensor<int, 2,2,3> arr3 = {0,0,0,0,0,0,0,0,0,0,0,0};
     arr3 = arr1+arr2;
     std::cout<<arr3<<std::endl;
+    
+    Matrix<int,2,3> m = {1,2,3,4,5,6};
+    arr3 = arr1 + m;
+    std::cout<<arr3<<std::endl;
 }
