@@ -37,9 +37,9 @@ struct BinaryOp: public Expr<BinaryOp<Op, Lhs, Rhs>>
 
     inline auto eval(unsigned i) const
     {
-        if (Lhs::dim == Rhs::dim)
+        if constexpr (Lhs::dim == Rhs::dim)
         {
-            if (Lhs::shape[0] == Rhs::shape[0])
+            if constexpr (Lhs::shape[0] == Rhs::shape[0])
             {
                 return Op::map(lhs.eval(i), rhs.eval(i));
             }
@@ -50,7 +50,14 @@ struct BinaryOp: public Expr<BinaryOp<Op, Lhs, Rhs>>
         }
         else
         {
-            // to do: different dim
+            if constexpr (Lhs::dim > Rhs::dim)
+            {
+                return Op::map(lhs.eval(i), rhs);
+            }
+            else
+            {
+                return Op::map(lhs, rhs.eval(i));
+            }
         }
     }
 };
