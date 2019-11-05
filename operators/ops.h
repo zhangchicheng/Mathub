@@ -2,7 +2,7 @@
 #define OPS_H
 
 #include "../traits/traits.h"
-#include<iostream>
+
 namespace Mathub
 {
 template <typename Op, typename Arg> struct UnaryOp;
