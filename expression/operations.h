@@ -20,10 +20,7 @@ struct UnaryOp : public Expr<UnaryOp<Op, Arg>>
 
     inline auto eval(unsigned i) const
     {
-        if constexpr (IsSame<Op, plus>::value)
-            return arg.eval(i);
-        else if constexpr (IsSame<Op, minus>::value)
-            return -arg.eval(i);
+        return Op::map(arg.eval(i));
     }
 };
 
