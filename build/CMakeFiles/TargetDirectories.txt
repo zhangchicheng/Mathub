@@ -1,3 +1,0 @@
-/home/zhangc/workspace/Mathub/build/CMakeFiles/Mathub.dir
-/home/zhangc/workspace/Mathub/build/CMakeFiles/edit_cache.dir
-/home/zhangc/workspace/Mathub/build/CMakeFiles/rebuild_cache.dir
